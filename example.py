@@ -9,13 +9,16 @@ data = torch.load('data/example.pt')
 model = MobileNet(2, torch.nn.ReLU(), 1, 1, 4).to(device)
 model.train()
 
-test = ( data['xfeats'].to(device),
-         ME.utils.batched_coordinates([data['xcoords']]),
-         data['yfeats'].to(device),
-         ME.utils.batched_coordinates([data['ycoords']]))
+test = (
+    data["xfeats"].to(device),
+    ME.utils.batched_coordinates([data["xcoords"]]),
+    data["yfeats"].to(device),
+    ME.utils.batched_coordinates([data["ycoords"]]),
+)
 
-test = model(test)
-loss = torch.nn.modules.loss.CrossEntropyLoss()(test, data['truth'].reshape([1]).to(device))
+test = model(test, device)
+loss = torch.nn.modules.loss.CrossEntropyLoss()(
+    test, data["truth"].reshape([1]).to(device)
+)
 print(loss)
 loss.backward()
-
