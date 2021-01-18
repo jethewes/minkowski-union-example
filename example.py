@@ -20,5 +20,5 @@ test = model(test, device)
 loss = torch.nn.modules.loss.CrossEntropyLoss()(
     test, data["truth"].reshape([1]).to(device)
 )
-print(loss)
+print(loss.item())
 loss.backward()
